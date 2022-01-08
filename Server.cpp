@@ -77,7 +77,7 @@ UserData* userFDArray[FD_NUMBER];
 
 
 //currentFD는 현재 제가 리슨 소켓으로 사용할 녀석을 넣어주세요!
-bool ServerStart(int* currentFD)
+bool StartServer(int* currentFD)
 {
 	//위에서 못 만들어 왔을 때!
 	if (*currentFD == -1)
