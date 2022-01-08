@@ -20,7 +20,7 @@
 //윈도우스 같은 경우에는 소켓이 따로 있습니다!
 //리눅스는 모든 것을 파일 형태로 관리해요! 소켓조차도 파일이거든요?
 //그래서 FD 넘버라고 했어요!
-#define FD_NUMBER 100
+#define USER_MAXIMUM 100
 
 //서버가 무한한 속도로 돌아가면 물론 좋겠죠^^
 //서버의 틱레이트를 조절해주실 필요가 있는데요!
@@ -71,8 +71,8 @@ public:
 };
 
 //====전역변수 선언란====//
-struct pollfd pollFDArray[FD_NUMBER];
-UserData* userFDArray[FD_NUMBER];
+struct pollfd pollFDArray[USER_MAXIMUM];
+UserData* userFDArray[USER_MAXIMUM];
 //====전역변수 선언란====//
 
 
@@ -166,6 +166,61 @@ int main()
 	if ( StartServer(&listenFD) ) return -4;
 
 	cout << "서버가 정상적으로 실행되었습니다." << endl;
+
+	//pollFDArray가 제가 연락을 기다리고 있는 애들이에요!
+	//그러다 보니까! 일단 처음에는 연락해줄 애가 없다는 것은 확인해야겠죠!
+	for (int i = 0; i < USER_MAXIMUM; i++)
+	{
+		//-1이 없다는 뜻!
+		pollFDArray[i].fd = -1;
+	};
+
+	//리슨 소켓도 따로 함수 만들어서 돌릴 건 아니니까! 
+	pollFDArray[0].fd = listenFD;
+	//읽기 대기중! 지금 가져왔어요!
+	pollFDArray[0].events = POLLIN;
+	pollFDArray[0].revents = 0;
+
+	//무한 반복!
+	for (;;)
+	{
+		//기다려요! 만약에 누군가가 저한테 메세지를 건네준다면! 그 때에서야 제가 움직이는 거에요!
+		//메세지가 있는지 없는지를 확인하는 방법!
+		result = poll(pollFDArray, USER_MAXIMUM, -1);
+
+		//메세지가 있어야만 뭔가 할 거에요!
+		if (result > 0)
+		{
+			//0번이 리슨 소켓이었습니다!
+			//0번에 들어오려고 하는 애들을 체크해주긴 해야 해요!
+			//                           누가 왔어?
+			if (pollFDArray[0].revents == POLLIN)
+			{
+				//들어오세요^^
+				connectFD = accept(listenFD, (struct sockaddr*)&connectSocket, &addressSize);
+
+				//어디보자... 자리가 있나..
+				//0번은 리슨 소켓이니까! 1번 부터 찾아봅시다!
+				for (int i = 1; i < USER_MAXIMUM; i++)
+				{
+					//여기있네!
+					if (pollFDArray[i].fd == -1)
+					{
+						pollFDArray[i].fd = connectFD;
+						pollFDArray[i].events = POLLIN;
+						pollFDArray[i].revents = 0;
+
+						//새로운 유저 정보를 생성합니다!
+						userFDArray[i] = new UserData();
+						//너가 이 자리에 있는 거야!
+						userFDArray[i]->FDNumber = i;
+
+						break;
+					};
+				};
+			};
+		};
+	};
 	
 	return -4;
 }
