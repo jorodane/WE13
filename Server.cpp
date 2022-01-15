@@ -216,7 +216,7 @@ int main()
 						userFDArray[i]->FDNumber = i;
 
 						//유저한테 반갑다고 인사해줍시다!
-						write(pollFDArray[i].fd, "Hi!", 4);
+						write(pollFDArray[i].fd, "뭐 다양한 걸 써보실 수도 있겠죠?", 33);
 
 						break;
 					};
