@@ -149,16 +149,14 @@ void CheckMessage(char receive[], int length)
 		//이 아래쪽은 받는 버퍼의 내용을 가져왔을 때에만 여기 있겠죠!
 		cout << value << endl;
 
+		//0번 리슨포트였죠...
 		for (int i = 1; i < USER_MAXIMUM; i++)
 		{
 			//유저가 있음!
 			if (pollFDArray[i].fd != -1)
 			{
 				//유저한테 채팅 내용을 전달해주기!
-				//write(pollFDArray[i].fd, receive, length);
-				//write(pollFDArray[i].fd, "채팅받았음", 16);
-				//유저한테 반갑다고 인사해줍시다!
-				write(pollFDArray[i].fd, "뭐 다양한 걸 써보실 수도 있겠죠?", 46);
+				write(pollFDArray[i].fd, receive, length);
 			};
 		};
 		break;
