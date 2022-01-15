@@ -289,10 +289,10 @@ int main()
 					//그래서 아예 함수로 돌려주도록 할게요!
 					CheckMessage(buffRecv, BUFF_SIZE);
 
-					//버퍼를 초기화시켜주고 가도록 합시다!
-					memset(buffRecv, 0, BUFF_SIZE);
 					break;
 				};
+				//버퍼를 초기화시켜주고 가도록 합시다!
+				memset(buffRecv, 0, BUFF_SIZE);
 			};
 		};
 	};
