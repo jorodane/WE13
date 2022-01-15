@@ -1,7 +1,7 @@
-//서버에는 ip가 있음 -> 내부 네트워크에도 ip 알려줘야함 
-#define SERVER_IP "10.182.0.2"
-//동적 포트 사용
-#define SERVER_PORT 61188
+#define SERVER_IP "10.178.0.5"
+
+//동적 포트를 사용해보도록 합시다!
+#define SERVER_PORT 61255
 //너무 많은 양의 전송 하면 성능상 + 물리적인 네트워크 기기에도 한계 
 #define BUFF_SIZE 1024
 //제한 해야 하는 요소 많음
