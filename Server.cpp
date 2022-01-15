@@ -149,7 +149,8 @@ void CheckMessage(char receive[], int length)
 		//이 아래쪽은 받는 버퍼의 내용을 가져왔을 때에만 여기 있겠죠!
 		cout << value << endl;
 
-		//0번 리슨포트였죠...
+		//0번 리슨포트였죠... 리슨포트에다가 그대로 전달을 해주시면
+		//서버가 서버한테 접속시도한 거니까! 요거는 하지 맙시다!
 		for (int i = 1; i < USER_MAXIMUM; i++)
 		{
 			//유저가 있음!
@@ -290,6 +291,9 @@ int main()
 					break;
 				};
 			};
+
+			//버퍼를 초기화시켜주고 가도록 합시다!
+			memset(buffRecv, 0, BUFF_SIZE);
 		};
 	};
 	
