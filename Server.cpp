@@ -148,6 +148,16 @@ void CheckMessage(char receive[], int length)
 		memcpy(value, receive + 1, length - 1);
 		//이 아래쪽은 받는 버퍼의 내용을 가져왔을 때에만 여기 있겠죠!
 		cout << value << endl;
+
+		for (int i = 0; i < USER_MAXIMUM; i++)
+		{
+			//유저가 있음!
+			if (pollFDArray[i].fd != -1)
+			{
+				//유저한테 채팅 내용을 전달해주기!
+				write(pollFDArray[i].fd, receive, length);
+			};
+		};
 		break;
 	};
 }
@@ -240,10 +250,6 @@ int main()
 						userFDArray[i] = new UserData();
 						//너가 이 자리에 있는 거야!
 						userFDArray[i]->FDNumber = i;
-
-						//유저한테 반갑다고 인사해줍시다!
-						write(pollFDArray[i].fd, "뭐 다양한 걸 써보실 수도 있겠죠?", 46);
-
 						break;
 					};
 				};
