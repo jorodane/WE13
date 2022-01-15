@@ -157,6 +157,8 @@ void CheckMessage(char receive[], int length)
 				//유저한테 채팅 내용을 전달해주기!
 				//write(pollFDArray[i].fd, receive, length);
 				//write(pollFDArray[i].fd, "채팅받았음", 16);
+				//유저한테 반갑다고 인사해줍시다!
+				write(pollFDArray[i].fd, "뭐 다양한 걸 써보실 수도 있겠죠?", 46);
 			};
 		};
 		break;
