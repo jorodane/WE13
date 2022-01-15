@@ -166,7 +166,7 @@ int main() {
 						userFDArray[i]->FDNumber = i;
 
 						//유저에게 반갑다고 인사
-						write(pollFDArray[i].fd, "Hi", 4);
+						write(pollFDArray[i].fd, "Hi", 3);
 
 						break;
 					};
@@ -175,6 +175,7 @@ int main() {
 
 			for (int i = 1; i < USER_MAXIMUM; i++)
 			{
+				cout << "이렇게" << endl;
 				switch (pollFDArray[i].revents)
 				{
 					//아무것도 없음
