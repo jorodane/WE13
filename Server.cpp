@@ -184,7 +184,7 @@ void CheckMessage(char receive[], int length)
 	}
 	catch (exception& e)
 	{
-		cout << e << endl;
+		cout << e.what() << endl;
 	};
 	//value는 다 썼으니까! 지워주기!
 	delete[] value;
