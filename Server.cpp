@@ -138,46 +138,53 @@ void CheckMessage(char receive[], int length)
 {
 	//		     맨 앞 1바이트는 메세지 구분용이니까!
 	char* value = new char[length - 1];
-	//			맨 앞 1바이트!
-	memcpy(value, receive + 1, length - 1);
-	//받은 메세지의 0번칸은 메세지의 타입을 정의합니다!
-	//물론 나중에 255개의 메세지 타입이 부족하다라고 생각하신 경우에는
-	//다른 바이트도 같이 확인을 하셔야 하겠지만! 지금은 그냥 바이트 하나만 보면 돼요!
-	switch (receive[0])
+	try
 	{
-	case Chat:
-		//이 아래쪽은 받는 버퍼의 내용을 가져왔을 때에만 여기 있겠죠!
-		cout << value << endl;
-
-		//0번 리슨포트였죠... 리슨포트에다가 그대로 전달을 해주시면
-		//서버가 서버한테 접속시도한 거니까! 요거는 하지 맙시다!
-		for (int i = 1; i < USER_MAXIMUM; i++)
+		//			맨 앞 1바이트!
+		memcpy(value, receive + 1, length - 1);
+		//받은 메세지의 0번칸은 메세지의 타입을 정의합니다!
+		//물론 나중에 255개의 메세지 타입이 부족하다라고 생각하신 경우에는
+		//다른 바이트도 같이 확인을 하셔야 하겠지만! 지금은 그냥 바이트 하나만 보면 돼요!
+		switch (receive[0])
 		{
-			//유저가 있음!
-			if (pollFDArray[i].fd != -1)
-			{
-				//유저한테 채팅 내용을 전달해주기!
-				write(pollFDArray[i].fd, receive, length - 1);
-			};
-		};
-		break;
+		case Chat:
+			//이 아래쪽은 받는 버퍼의 내용을 가져왔을 때에만 여기 있겠죠!
+			cout << value << endl;
 
-	case Move:
-		//이 아래쪽은 받는 버퍼의 내용을 가져왔을 때에만 여기 있겠죠!
-		cout << "플레이어 이동 수신" << endl;
-
-		//0번 리슨포트였죠... 리슨포트에다가 그대로 전달을 해주시면
-		//서버가 서버한테 접속시도한 거니까! 요거는 하지 맙시다!
-		for (int i = 1; i < USER_MAXIMUM; i++)
-		{
-			//유저가 있음!
-			if (pollFDArray[i].fd != -1)
+			//0번 리슨포트였죠... 리슨포트에다가 그대로 전달을 해주시면
+			//서버가 서버한테 접속시도한 거니까! 요거는 하지 맙시다!
+			for (int i = 1; i < USER_MAXIMUM; i++)
 			{
-				//유저한테 채팅 내용을 전달해주기!
-				write(pollFDArray[i].fd, receive, length - 1);
+				//유저가 있음!
+				if (pollFDArray[i].fd != -1)
+				{
+					//유저한테 채팅 내용을 전달해주기!
+					write(pollFDArray[i].fd, receive, length - 1);
+				};
 			};
+			break;
+
+		case Move:
+			//이 아래쪽은 받는 버퍼의 내용을 가져왔을 때에만 여기 있겠죠!
+			cout << "플레이어 이동 수신" << endl;
+
+			//0번 리슨포트였죠... 리슨포트에다가 그대로 전달을 해주시면
+			//서버가 서버한테 접속시도한 거니까! 요거는 하지 맙시다!
+			for (int i = 1; i < USER_MAXIMUM; i++)
+			{
+				//유저가 있음!
+				if (pollFDArray[i].fd != -1)
+				{
+					//유저한테 채팅 내용을 전달해주기!
+					write(pollFDArray[i].fd, receive, length - 1);
+				};
+			};
+			break;
 		};
-		break;
+	}
+	catch (exception& e)
+	{
+		cout << e << endl;
 	};
 	//value는 다 썼으니까! 지워주기!
 	delete[] value;
