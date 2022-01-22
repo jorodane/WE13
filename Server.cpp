@@ -157,7 +157,28 @@ void CheckMessage(char receive[], int length)
 			if (pollFDArray[i].fd != -1)
 			{
 				//유저한테 채팅 내용을 전달해주기!
-				write(pollFDArray[i].fd, receive, length);
+				write(pollFDArray[i].fd, receive, length - 1);
+			};
+		};
+		break;
+
+	case Move:
+		//		     맨 앞 1바이트는 메세지 구분용이니까!
+		char* value = new char[length - 1];
+		//			맨 앞 1바이트!
+		memcpy(value, receive + 1, length - 1);
+		//이 아래쪽은 받는 버퍼의 내용을 가져왔을 때에만 여기 있겠죠!
+		cout << "플레이어 이동 수신" << endl;
+
+		//0번 리슨포트였죠... 리슨포트에다가 그대로 전달을 해주시면
+		//서버가 서버한테 접속시도한 거니까! 요거는 하지 맙시다!
+		for (int i = 1; i < USER_MAXIMUM; i++)
+		{
+			//유저가 있음!
+			if (pollFDArray[i].fd != -1)
+			{
+				//유저한테 채팅 내용을 전달해주기!
+				write(pollFDArray[i].fd, receive, length - 1);
 			};
 		};
 		break;
