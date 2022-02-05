@@ -339,7 +339,11 @@ int main()
 
 									//새로 들어온 유저한테! 이 유저를 알려주기!
 									write(pollFDArray[i].fd, userNumberMessage, 5);
-									cout << intChanger.intValue << endl;
+									for (int o = 0; o < 5; o++)
+									{
+										cout << intChanger.charArray[o];
+									};
+									cout << endl;
 								};
 							};
 							break;
