@@ -372,7 +372,7 @@ int main()
 					//숫자나 그런 쉽게 눈에 보이지 않는 내용을 처리할 때에는
 					//조금더 복잡한 과정을 거칠 거거든요!
 					//그래서 아예 함수로 돌려주도록 할게요!
-					CheckMessage(buffRecv, BUFF_SIZE);
+					CheckMessage(i, buffRecv, BUFF_SIZE);
 
 					break;
 				};
