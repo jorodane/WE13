@@ -341,7 +341,7 @@ int main()
 									write(pollFDArray[i].fd, userNumberMessage, 5);
 									for (int o = 0; o < 5; o++)
 									{
-										cout << intChanger.charArray[o];
+										cout << (int)intChanger.charArray[o];
 									};
 									cout << endl;
 								};
