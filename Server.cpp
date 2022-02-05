@@ -46,6 +46,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <queue>
+
 #include "ServerEnum.h"
 
 using namespace std;
@@ -70,6 +72,8 @@ union IntUnion
 	int intValue;
 	char charArray[4];
 };
+
+
 //부동소수점실수와 문자배열을 왔다갔다할 수 있게끔 도와주는 징검다리!
 FloatUnion floatChanger;
 IntUnion intChanger;
@@ -77,6 +81,13 @@ IntUnion intChanger;
 class UserData
 {
 public:
+	//전송하고자 하는 데이터가 있었을 거에요!
+	//한 유저한테 들어가야 하는 정보가 너무나도 많아요!
+	//한 번에 주기가 너무 힘듭니다!
+	//message Queue라고 해서! Queue형태로 저장을 시켜놓은 다음에!
+	//Queue는 대기열! 아직 못 전해준 녀석! 순서대로 전달!
+	queue<char*> messageQueue = new queue<char*>();
+
 	//본인이 타고 있는 소켓의 번호를 저장해둡시다!
 	//나중에 얘한테 연락해야 하는 일이 있을 때! 유용하게 사용하겠죠!
 	int FDNumber = 0;
@@ -84,6 +95,38 @@ public:
 	float destinationX, destinationY, destinationZ;
 	//위치 x, y, z를 넣어주기!
 	float locationX, locationY, locationZ;
+
+	void MessageQueueing(char* wantMessage)
+	{
+		//원하는 메세지를 유저한테 전달!
+		//즉시 전달을 하는 것이 아니에요!
+		//다음 틱레이트에 도착했을 때! 아! 보내면 되는구나! 라고 생각해서!
+		//넣어둔 큐에서 빼서 갈 거니까! 일단 준비해보기!
+		messageQueue.push(wantMessage);
+	}
+
+	void MessageSend()
+	{
+		//실제 메세지를 전달해주는 방법~!
+		//줄 것도 없는데.. 뭐 더 할 필요는 없겠죠..?
+		if (messageQueue.empty()) return;
+
+		//맨 앞에 있는 녀석을 확인해보기!
+		//제일 오래 기다린 녀석!
+		//줄에서 일단은 가져오기만! 했어요!
+		//줄에서 빼내주지 않았다..?
+		char* currentMessage = messageQueue.front();
+
+		//현재 메시지를 전달해줍니다!
+		//write라고 하는 함수는 실패했을 때! -1을 돌려줍니다!
+		if (write(pollFDArray[FDNumber]->fd, currentMessage, BUFF_SIZE) != -1)
+		{
+			//-1이 아니라고 한다면! 성공했다고 볼 수 있겠죠!
+			//보낸 데이터의 크기를 반환받을 수 있습니다!
+			//데이터를 보내는 데에 성공했을 때에만! 메세지 대기열에서 빼주기!
+			messageQueue.pop();
+		};
+	}
 	
 	UserData()
 	{
@@ -331,21 +374,19 @@ int main()
 									write(pollFDArray[j].fd, message, 5);
 
 									//원래 유저가 있었던 것도 알려주어야 하니까!
-									char userNumberMessage[5];
+									char* userNumberMessage = new char[5];
 									userNumberMessage[0] = Join;
 									//이미 있던 유저의 아이디를 전달해주기!
 									intChanger.intValue = j;
 									for (int k = 0; k < 4; k++) userNumberMessage[k + 1] = intChanger.charArray[k];
 
 									//새로 들어온 유저한테! 이 유저를 알려주기!
-									write(pollFDArray[i].fd, userNumberMessage, 5);
-									for (int o = 0; o < 5; o++)
-									{
-										cout << (int)userNumberMessage[o];
-									};
-									cout << endl;
+									//write(pollFDArray[i].fd, userNumberMessage, 5);
+									userFDArray[i]->MessageQueueing(userNumberMessage);
 								};
 							};
+							//에이 그래도 한 번은 받겠지..
+							userFDArray[i]->MessageSend();
 							break;
 						};
 					};
@@ -418,12 +459,8 @@ int main()
 						break;
 					};
 					//버퍼를 초기화시켜주고 가도록 합시다!
-					//memset(buffRecv, 0, BUFF_SIZE);
-					//memset(buffSend, 0, BUFF_SIZE);
+					memset(buffRecv, 0, BUFF_SIZE);
 				};
-				//일단 0으로 초기화!
-				//memset(buffRecv, 0, sizeof(buffRecv));
-				//memset(buffSend, 0, sizeof(buffSend));
 			};
 		};
 	}
