@@ -418,12 +418,12 @@ int main()
 						break;
 					};
 					//버퍼를 초기화시켜주고 가도록 합시다!
-					memset(buffRecv, 0, BUFF_SIZE);
-					memset(buffSend, 0, BUFF_SIZE);
+					//memset(buffRecv, 0, BUFF_SIZE);
+					//memset(buffSend, 0, BUFF_SIZE);
 				};
 				//일단 0으로 초기화!
-				memset(buffRecv, 0, sizeof(buffRecv));
-				memset(buffSend, 0, sizeof(buffSend));
+				//memset(buffRecv, 0, sizeof(buffRecv));
+				//memset(buffSend, 0, sizeof(buffSend));
 			};
 		};
 	}
