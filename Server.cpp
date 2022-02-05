@@ -337,7 +337,7 @@ int main()
 									intChanger.intValue = j;
 									for (int k = 0; k < 4; k++) userNumberMessage[k + 1] = intChanger.charArray[k];
 									//새로 들어온 유저한테! 이 유저를 알려주기!
-									write(pollFDArray[i].fd, userNumberMessage, 5)
+									write(pollFDArray[i].fd, userNumberMessage, 5);
 								};
 							};
 							break;
