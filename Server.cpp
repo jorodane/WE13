@@ -396,6 +396,23 @@ int main()
 						CheckMessage(i, buffRecv, BUFF_SIZE);
 
 						break;
+					default:
+						delete userFDArray[i];
+						pollFDArray[i].fd = -1;
+
+						char message[5];
+						message[0] = Exit;
+						intChanger.intValue = i;
+						for (int k = 0; k < 4; k++)
+						{
+							message[k + 1] = intChanger.charArray[k];
+						};
+
+						//유저가 나갔다고 알려주기!
+						for (int j = 1; j < USER_MAXIMUM; j++)
+						{
+							if (pollFDArray[j].fd != -1) write(pollFDArray[j].fd, message, 5);
+						};
 					};
 					//버퍼를 초기화시켜주고 가도록 합시다!
 					memset(buffRecv, 0, BUFF_SIZE);
