@@ -313,12 +313,12 @@ int main()
 						char message[5];
 						message[0] = Join;
 						intChanger.intValue = i;
-						for (int k = 0; k < 4; k++) message[k + 1] = intChanger[k];
+						for (int k = 0; k < 4; k++) message[k + 1] = intChanger.charArray[k];
 
 						//새로운 유저가 도착했다고 알려주기!
 						for (int j = 1; j < USER_MAXIMUM; j++)
 						{
-							if (pollFDArray[j] != -1) write(pollFDArray[j], message, 5);
+							if (pollFDArray[j].fd != -1) write(pollFDArray[j].fd, message, 5);
 						};
 
 						//새로운 유저 정보를 생성합니다!
@@ -355,12 +355,12 @@ int main()
 						char message[5];
 						message[0] = Exit;
 						intChanger.intValue = i;
-						for (int k = 0; k < 4; k++) message[k + 1] = intChanger[k];
+						for (int k = 0; k < 4; k++) message[k + 1] = intChanger.charArray[k];
 
 						//유저가 나갔다고 알려주기!
 						for (int j = 1; j < USER_MAXIMUM; j++)
 						{
-							if (pollFDArray[j] != -1) write(pollFDArray[j], message, 5);
+							if (pollFDArray[j].fd != -1) write(pollFDArray[j].fd, message, 5);
 						};
 
 						break;
