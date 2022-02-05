@@ -91,7 +91,7 @@ public:
 	//한 번에 주기가 너무 힘듭니다!
 	//message Queue라고 해서! Queue형태로 저장을 시켜놓은 다음에!
 	//Queue는 대기열! 아직 못 전해준 녀석! 순서대로 전달!
-	queue<char*> messageQueue = new queue<char*>();
+	queue<char*> messageQueue;
 
 	//본인이 타고 있는 소켓의 번호를 저장해둡시다!
 	//나중에 얘한테 연락해야 하는 일이 있을 때! 유용하게 사용하겠죠!
