@@ -57,12 +57,33 @@ using namespace std;
 
 //전방선언//
 
+//유니언! float는 4바이트죠! char[4]도 4바이트!
+//저 두 개를 같은 메모리에서 활용하게 합니다!
+union FloatUnion
+{
+	float floatValue;
+	char charArray[4];
+};
+
+union IntUnion
+{
+	int intValue;
+	char charArray[4];
+};
+//부동소수점실수와 문자배열을 왔다갔다할 수 있게끔 도와주는 징검다리!
+FloatUnion floatChanger;
+IntUnion intChanger;
+
 class UserData
 {
 public:
 	//본인이 타고 있는 소켓의 번호를 저장해둡시다!
 	//나중에 얘한테 연락해야 하는 일이 있을 때! 유용하게 사용하겠죠!
 	int FDNumber = 0;
+	//목적지 x, y, z를 넣어줄 거에요!
+	float destinationX, destinationY, destinationZ;
+	//위치 x, y, z를 넣어주기!
+	float locationX, locationY, locationZ;
 	
 	UserData()
 	{
@@ -134,7 +155,7 @@ bool StartServer(int* currentFD)
 	return false;
 }
 
-void CheckMessage(char receive[], int length)
+void CheckMessage(int userNumber, char receive[], int length)
 {
 	//		     맨 앞 1바이트는 메세지 구분용이니까!
 	char* value = new char[length - 1];
@@ -168,6 +189,21 @@ void CheckMessage(char receive[], int length)
 			//이 아래쪽은 받는 버퍼의 내용을 가져왔을 때에만 여기 있겠죠!
 			cout << "플레이어 이동 수신" << endl;
 
+			//배열의 1번칸부터 4번칸까지! floatChanger에 넣어주기!
+			//										0 ~ 3				1 ~ 4
+			for (int i = 0; i < 4; i++) floatChanger.charArray[i] = receive[i + 1];
+			
+			//목적지x같은 경우는! float값이기 때문에 float로 변환해서 저장해야해요!
+			//floatChanger에다가 문자 배열을 넣는 것만으로도 변환한 효과가 나니까!
+			//그대로 진행해주시면 되겠습니다!
+			userFDArray[userNumber]->destinationX = floatChanger.floatValue;
+
+			for (int i = 0; i < 4; i++) floatChanger.charArray[i] = receive[i + 5];
+			userFDArray[userNumber]->destinationY = floatChanger.floatValue;
+
+			for (int i = 0; i < 4; i++) floatChanger.charArray[i] = receive[i + 9];
+			userFDArray[userNumber]->destinationZ = floatChanger.floatValue;
+
 			//0번 리슨포트였죠... 리슨포트에다가 그대로 전달을 해주시면
 			//서버가 서버한테 접속시도한 거니까! 요거는 하지 맙시다!
 			for (int i = 1; i < USER_MAXIMUM; i++)
@@ -175,7 +211,7 @@ void CheckMessage(char receive[], int length)
 				//유저가 있음!
 				if (pollFDArray[i].fd != -1)
 				{
-					//유저한테 채팅 내용을 전달해주기!
+					//유저한테 이동 내용을 전달해주기!
 					write(pollFDArray[i].fd, receive, length - 1);
 				};
 			};
@@ -274,6 +310,17 @@ int main()
 						pollFDArray[i].events = POLLIN;
 						pollFDArray[i].revents = 0;
 
+						char message[5];
+						message[0] = Join;
+						intChanger.intValue = i;
+						for (int k = 0; k < 4; k++) message[k + 1] = intChanger[k];
+
+						//새로운 유저가 도착했다고 알려주기!
+						for (int j = 1; j < USER_MAXIMUM; j++)
+						{
+							if (pollFDArray[j] != -1) write(pollFDArray[j], message, 5);
+						};
+
 						//새로운 유저 정보를 생성합니다!
 						userFDArray[i] = new UserData();
 						//너가 이 자리에 있는 거야!
@@ -304,6 +351,18 @@ int main()
 					{
 						delete userFDArray[i];
 						pollFDArray[i].fd = -1;
+
+						char message[5];
+						message[0] = Exit;
+						intChanger.intValue = i;
+						for (int k = 0; k < 4; k++) message[k + 1] = intChanger[k];
+
+						//유저가 나갔다고 알려주기!
+						for (int j = 1; j < USER_MAXIMUM; j++)
+						{
+							if (pollFDArray[j] != -1) write(pollFDArray[j], message, 5);
+						};
+
 						break;
 					};
 
