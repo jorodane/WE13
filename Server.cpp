@@ -59,6 +59,11 @@ using namespace std;
 
 //전방선언//
 
+//====전역변수 선언란====//
+struct pollfd pollFDArray[USER_MAXIMUM];
+class UserData* userFDArray[USER_MAXIMUM];
+//====전역변수 선언란====//
+
 //유니언! float는 4바이트죠! char[4]도 4바이트!
 //저 두 개를 같은 메모리에서 활용하게 합니다!
 union FloatUnion
@@ -138,11 +143,6 @@ public:
 		cout << "유저 연결이 종료되었습니다." << endl;
 	}
 };
-
-//====전역변수 선언란====//
-struct pollfd pollFDArray[USER_MAXIMUM];
-UserData* userFDArray[USER_MAXIMUM];
-//====전역변수 선언란====//
 
 
 //currentFD는 현재 제가 리슨 소켓으로 사용할 녀석을 넣어주세요!
