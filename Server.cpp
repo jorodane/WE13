@@ -124,7 +124,7 @@ public:
 
 		//현재 메시지를 전달해줍니다!
 		//write라고 하는 함수는 실패했을 때! -1을 돌려줍니다!
-		if (write(pollFDArray[FDNumber]->fd, currentMessage, BUFF_SIZE) != -1)
+		if (write(pollFDArray[FDNumber].fd, currentMessage, BUFF_SIZE) != -1)
 		{
 			//-1이 아니라고 한다면! 성공했다고 볼 수 있겠죠!
 			//보낸 데이터의 크기를 반환받을 수 있습니다!
