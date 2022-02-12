@@ -479,14 +479,13 @@ int main()
 		};
 
 		//다 끝나고 나서는 스레드를 종료해주셔야겠죠!
-		pthread_cancel(senderThread);
+		//pthread_cancel(senderThread);
 	}
 	catch (exception& e)
 	{
 		cout << e.what() << endl;
 	};
 
-	
 	cout << "서버가 종료되었습니다." << endl;
 	return -4;
 }
