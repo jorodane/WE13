@@ -386,6 +386,10 @@ int main()
 							{
 								if (pollFDArray[j].fd != -1)
 								{
+									//새로운 유저의 메시지를 복사하기!
+									char* currentUserMessage = new char[5];
+									memcpy(currentUserMessage, message, 5);
+
 									//모든 유저들한테! 새로운 유저의 출현을 알려주기!
 									write(pollFDArray[j].fd, message, 5);
 
