@@ -406,7 +406,7 @@ int main()
 								};
 							};
 							//에이 그래도 한 번은 받겠지..
-							userFDArray[i]->MessageSend();
+							//userFDArray[i]->MessageSend();
 							break;
 						};
 					};
