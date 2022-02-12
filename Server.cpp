@@ -462,7 +462,7 @@ int main()
 							//유저가 나갔다고 알려주기!
 							for (int j = 1; j < USER_MAXIMUM; j++)
 							{
-								if (i != j && pollFDArray[j] != -1 && userFDArray[j] != nullptr)
+								if (i != j && pollFDArray[j].fd != -1 && userFDArray[j] != nullptr)
 								{
 									char* currentUserMessage = new char[5];
 									memcpy(currentUserMessage, message, 5);
