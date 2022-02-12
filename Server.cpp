@@ -505,7 +505,8 @@ void* MessageSendThread(void* args)
 		//스레드란 컴퓨터가 프로그램을 돌릴 때 돌아가는 하나의 라인이라고 보시면 됩니다!
 		for (int i = 1; i < USER_MAXIMUM; i++)
 		{
-			if (pollFDArray[i].fd >= 0)
+			//유저가 있다면 전달 시도!
+			if (userFDArray[i] != nullptr)
 			{
 				memset(buffSend, 0, BUFF_SIZE);
 				userFDArray[i]->MessageSend();
