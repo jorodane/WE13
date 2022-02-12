@@ -57,7 +57,7 @@ using namespace std;
 
 
 //전방선언//
-
+void MessageSendThread();
 //전방선언//
 
 //====전역변수 선언란====//
@@ -480,7 +480,7 @@ int main()
 		};
 
 		//다 끝나고 나서는 스레드를 종료해주셔야겠죠!
-		pthread_cancel(&senderThread);
+		pthread_cancel(*senderThread);
 	}
 	catch (exception& e)
 	{
