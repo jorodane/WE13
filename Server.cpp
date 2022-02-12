@@ -136,6 +136,7 @@ public:
 		//write라고 하는 함수는 실패했을 때! -1을 돌려줍니다!
 		if (write(pollFDArray[FDNumber].fd, currentMessage, BUFF_SIZE) != -1)
 		{
+			cout << "보냄" << endl;
 			//-1이 아니라고 한다면! 성공했다고 볼 수 있겠죠!
 			//보낸 데이터의 크기를 반환받을 수 있습니다!
 			//데이터를 보내는 데에 성공했을 때에만! 메세지 대기열에서 빼주기!
