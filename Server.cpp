@@ -57,7 +57,7 @@ using namespace std;
 
 
 //전방선언//
-void MessageSendThread();
+void MessageSendThread(void* args);
 //전방선언//
 
 //====전역변수 선언란====//
@@ -494,7 +494,9 @@ int main()
 
 
 //메시지를 보내주는 하나의 스레드!
-void MessageSendThread()
+//저희가 사실 Main함수같은 걸 만들 때에도 운영체제에서 정보들을 줍니다!
+//그래서 그걸 void*에다가 받아주도록 할게요!
+void MessageSendThread(void* args)
 {
 	//메시지는 무한히 보내줘야해요!
 	for (;;)
