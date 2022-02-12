@@ -331,6 +331,14 @@ int main()
 		//무한 반복!
 		for (;;)
 		{
+			for (int i = 1; i < USER_MAXIMUM; i++)
+			{
+				if (pollFDArray[i].fd >= 0)
+				{
+					userFDArray[i]->MessageSend();
+				};
+			};
+
 			//기다려요! 만약에 누군가가 저한테 메세지를 건네준다면! 그 때에서야 제가 움직이는 거에요!
 			//메세지가 있는지 없는지를 확인하는 방법!
 			result = poll(pollFDArray, USER_MAXIMUM, -1);
