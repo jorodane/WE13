@@ -117,11 +117,11 @@ public:
 
 	void MessageSend()
 	{
+		cout << "유저에게 전달하기 전 마지막 단말마" << endl;
 		//실제 메세지를 전달해주는 방법~!
 		//줄 것도 없는데.. 뭐 더 할 필요는 없겠죠..?
 		if (messageQueue == nullptr || messageQueue->empty()) return;
 
-		cout << "유저에게 전달하기 전 마지막 단말마" << endl;
 
 		//맨 앞에 있는 녀석을 확인해보기!
 		//제일 오래 기다린 녀석!
