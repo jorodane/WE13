@@ -63,6 +63,10 @@ void* MessageSendThread(void* args);
 //====전역변수 선언란====//
 struct pollfd pollFDArray[USER_MAXIMUM];
 class UserData* userFDArray[USER_MAXIMUM];
+//받는 버퍼!
+char buffRecv[BUFF_SIZE];
+//주는 버퍼!
+char buffSend[BUFF_SIZE];
 //====전역변수 선언란====//
 
 //유니언! float는 4바이트죠! char[4]도 4바이트!
@@ -300,11 +304,6 @@ int main()
 
 		struct sockaddr_in listenSocket, connectSocket;
 		socklen_t addressSize;
-
-		//받는 버퍼!
-		char buffRecv[BUFF_SIZE];
-		//주는 버퍼!
-		char buffSend[BUFF_SIZE];
 
 		//일단 0으로 초기화!
 		memset(buffRecv, 0, sizeof(buffRecv));
