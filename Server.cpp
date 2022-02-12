@@ -247,7 +247,7 @@ void CheckMessage(int userNumber, char receive[], int length)
 				if (userFDArray[i] != nullptr)
 				{
 					char* currentMessage = new char[length];
-					memcpy(currentMessage, value, length);
+					memcpy(currentMessage, receive, length);
 
 					//유저한테 채팅 내용을 전달해주기!
 					userFDArray[i]->MessageQueueing(currentMessage);
