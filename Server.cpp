@@ -397,7 +397,7 @@ int main()
 							//모든 유저를 돌아서!
 							for (int j = 1; j < USER_MAXIMUM; j++)
 							{
-								if (pollFDArray[j].fd != -1 && userFDArray[j] != nullptr)
+								if (pollFDArray[j].fd != -1)
 								{
 									//새로운 유저의 메시지를 복사하기!
 									char* currentUserMessage = new char[5];
@@ -456,7 +456,7 @@ int main()
 							//유저가 나갔다고 알려주기!
 							for (int j = 1; j < USER_MAXIMUM; j++)
 							{
-								if (userFDArray[j] != nullptr)
+								if (i != j && userFDArray[j] != nullptr)
 								{
 									char* currentUserMessage = new char[5];
 									memcpy(currentUserMessage, message, 5);
