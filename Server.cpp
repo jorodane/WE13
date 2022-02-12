@@ -131,12 +131,12 @@ public:
 		if (currentMessage == nullptr) return;
 		//pollFD가 뭔가 잘못 들어와 있을 때!
 		if (FDNumber < 0 || pollFDArray[FDNumber].fd <= 1) return;
-
+		cout << "보냄" << endl;
 		//현재 메시지를 전달해줍니다!
 		//write라고 하는 함수는 실패했을 때! -1을 돌려줍니다!
 		if (write(pollFDArray[FDNumber].fd, currentMessage, BUFF_SIZE) != -1)
 		{
-			cout << "보냄" << endl;
+			
 			//-1이 아니라고 한다면! 성공했다고 볼 수 있겠죠!
 			//보낸 데이터의 크기를 반환받을 수 있습니다!
 			//데이터를 보내는 데에 성공했을 때에만! 메세지 대기열에서 빼주기!
