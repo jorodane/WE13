@@ -108,6 +108,7 @@ public:
 
 	void MessageQueueing(char* wantMessage)
 	{
+		if (messageQueue == nullptr) return;
 		//원하는 메세지를 유저한테 전달!
 		//즉시 전달을 하는 것이 아니에요!
 		//다음 틱레이트에 도착했을 때! 아! 보내면 되는구나! 라고 생각해서!
@@ -131,7 +132,7 @@ public:
 		if (currentMessage == nullptr) return;
 		//pollFD가 뭔가 잘못 들어와 있을 때!
 		if (FDNumber < 0 || pollFDArray[FDNumber].fd <= 1) return;
-		cout << "보냄" << endl;
+
 		//현재 메시지를 전달해줍니다!
 		//write라고 하는 함수는 실패했을 때! -1을 돌려줍니다!
 		if (write(pollFDArray[FDNumber].fd, currentMessage, BUFF_SIZE) != -1)
