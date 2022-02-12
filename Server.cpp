@@ -466,7 +466,7 @@ int main()
 								{
 									char* currentUserMessage = new char[5];
 									memcpy(currentUserMessage, message, 5);
-									cout << j << "번째 유저에게 전달" << endl;
+
 									userFDArray[j]->MessageQueueing(currentUserMessage);
 								};
 							};
@@ -497,7 +497,7 @@ int main()
 						//유저가 나갔다고 알려주기!
 						for (int j = 1; j < USER_MAXIMUM; j++)
 						{
-							if (i != j && userFDArray[j] != nullptr)
+							if (i != j && pollFDArray[j].fd != -1 && userFDArray[j] != nullptr)
 							{
 								char* currentUserMessage = new char[5];
 								memcpy(currentUserMessage, message, 5);
