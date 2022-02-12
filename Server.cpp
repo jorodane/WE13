@@ -149,11 +149,12 @@ public:
 	~UserData()
 	{
 		//메시지 큐 안에 들어있었던 문자열들을 꺼내면서 제거해줄 필요가 있겠죠!
+		/*
 		while (!messageQueue->empty())
 		{
 			delete messageQueue->front();
 			messageQueue->pop();
-		};
+		};*/
 		//delete messageQueue;
 		cout << "유저 연결이 종료되었습니다." << endl;
 	}
