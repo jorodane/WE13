@@ -329,7 +329,7 @@ int main()
 		pollFDArray[0].revents = 0;
 
 		//스레드를 실행시켜놓고 가도록 할게요!
-		pthread_t senderThread;
+		pthread_t senderThread = nullptr;
 
 		//스레드를 실제로 실행하는 부분!
 		if (pthread_create(&senderThread, nullptr, MessageSendThread, nullptr))
@@ -479,13 +479,15 @@ int main()
 		};
 
 		//다 끝나고 나서는 스레드를 종료해주셔야겠죠!
-		//pthread_cancel(senderThread);
+		//생성한 스레드를 종료하는데! 끝날 때까지 기다려줘요!
+		pthread_join(senderThread, nullptr);
 	}
 	catch (exception& e)
 	{
 		cout << e.what() << endl;
 	};
 
+	
 	cout << "서버가 종료되었습니다." << endl;
 	return -4;
 }
