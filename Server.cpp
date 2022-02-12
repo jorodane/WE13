@@ -405,8 +405,6 @@ int main()
 									userFDArray[i]->MessageQueueing(userNumberMessage);
 								};
 							};
-							//에이 그래도 한 번은 받겠지..
-							//userFDArray[i]->MessageSend();
 							break;
 						};
 					};
@@ -445,7 +443,9 @@ int main()
 							//유저가 나갔다고 알려주기!
 							for (int j = 1; j < USER_MAXIMUM; j++)
 							{
-								if (pollFDArray[j].fd != -1) write(pollFDArray[j].fd, message, 5);
+								char currentUserMessage[5];
+								memcpy(currentUserMessage, message, 5);
+								if (userFDArray[j] != nullptr) userFDArray[j]->MessageQueueing(currentUserMessage);
 							};
 							break;
 						};
@@ -474,7 +474,9 @@ int main()
 						//유저가 나갔다고 알려주기!
 						for (int j = 1; j < USER_MAXIMUM; j++)
 						{
-							if (pollFDArray[j].fd != -1) write(pollFDArray[j].fd, message, 5);
+							char currentUserMessage[5];
+							memcpy(currentUserMessage, message, 5);
+							if (userFDArray[j] != nullptr) userFDArray[j]->MessageQueueing(currentUserMessage);
 						};
 						break;
 					};
