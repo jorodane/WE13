@@ -140,7 +140,6 @@ public:
 		//write라고 하는 함수는 실패했을 때! -1을 돌려줍니다!
 		if (write(pollFDArray[FDNumber].fd, currentMessage, BUFF_SIZE) != -1)
 		{
-			
 			//-1이 아니라고 한다면! 성공했다고 볼 수 있겠죠!
 			//보낸 데이터의 크기를 반환받을 수 있습니다!
 			//데이터를 보내는 데에 성공했을 때에만! 메세지 대기열에서 빼주기!
@@ -245,10 +244,14 @@ void CheckMessage(int userNumber, char receive[], int length)
 			for (int i = 1; i < USER_MAXIMUM; i++)
 			{
 				//유저가 있음!
-				if (pollFDArray[i].fd != -1)
+				if (userFDArray[i] != nullptr)
 				{
+					char* currentMessage;
+					memcpy(currentMessage, value, length);
+
 					//유저한테 채팅 내용을 전달해주기!
-					write(pollFDArray[i].fd, receive, length - 1);
+					userFDArray[i]->MessageQueueing(currentMessage);
+					//write(pollFDArray[i].fd, receive, length - 1);
 				};
 			};
 			break;
