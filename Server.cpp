@@ -133,6 +133,9 @@ public:
 		//pollFD가 뭔가 잘못 들어와 있을 때!
 		if (FDNumber < 0 || pollFDArray[FDNumber].fd <= 1) return;
 
+		//메시지를 전달하기 직전에 버퍼를 초기화!
+		memset(buffSend, 0, BUFF_SIZE);
+
 		//현재 메시지를 전달해줍니다!
 		//write라고 하는 함수는 실패했을 때! -1을 돌려줍니다!
 		if (write(pollFDArray[FDNumber].fd, currentMessage, BUFF_SIZE) != -1)
