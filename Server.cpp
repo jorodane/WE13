@@ -335,6 +335,7 @@ int main()
 			{
 				if (pollFDArray[i].fd >= 0)
 				{
+					memset(buffSend, 0, BUFF_SIZE);
 					userFDArray[i]->MessageSend();
 				};
 			};
