@@ -246,33 +246,62 @@ void CheckMessage(int userNumber, char receive[], int length)
 				//유저가 있음!
 				if (userFDArray[i] != nullptr)
 				{
-					char* currentMessage = new char[length];
-					memcpy(currentMessage, receive, length);
+					int messageLength = 0;
+					//0이 나올때까지 계속 확인해봅시다!
+					//어차피 반복문이 messageLength는 계속 늘려주어요!
+					for (messageLength = 0; messageLength < length; messageLength++)
+					{
+						if (value[messageLength] == 0) break;
+					};
+
+					// \0이 나오게 되면! 이야기가 끝났다고 보는 것이었죠!
+					char* currentMessage = new char[messageLength + 2];
+					//메시지 타입이 채팅입니다!
+					currentMessage[0] = Chat;
+					//누가 채팅을 한 것인지!
+					currentMessage[1] = userNumber;
+
+					//메시지 내용을 여기에다가 그대로 전달하기!
+					memcpy(currentMessage + 2, value, messageLength);
 
 					//유저한테 채팅 내용을 전달해주기!
 					userFDArray[i]->MessageQueueing(currentMessage);
-					//write(pollFDArray[i].fd, receive, length - 1);
 				};
 			};
 			break;
 
 		case Move:
 			//이 아래쪽은 받는 버퍼의 내용을 가져왔을 때에만 여기 있겠죠!
-			cout << "플레이어 이동 수신" << endl;
+			// 메시지 구분(1)   +   플레이어 구분 (1)  +  X위치 (4)  +  Y위치(4)  + Z위치(4)
+			char* currentMessage = new char[14];
+			currentMessage[0] = Move;
+			currentMessage[1] = userNumber;
 
 			//배열의 1번칸부터 4번칸까지! floatChanger에 넣어주기!
-			//										0 ~ 3				1 ~ 4
-			for (int i = 0; i < 4; i++) floatChanger.charArray[i] = receive[i + 1];
+			for (int i = 0; i < 4; i++)
+			{
+				//받아오는 메시지는 누구인지 구분이 없는데(1) 여기는 구분이 있으니까!
+				currentMessage[i + 2] = receive[i + 1];
+				floatChanger.charArray[i] = receive[i + 1];
+			};
 			
 			//목적지x같은 경우는! float값이기 때문에 float로 변환해서 저장해야해요!
 			//floatChanger에다가 문자 배열을 넣는 것만으로도 변환한 효과가 나니까!
 			//그대로 진행해주시면 되겠습니다!
 			userFDArray[userNumber]->destinationX = floatChanger.floatValue;
 
-			for (int i = 0; i < 4; i++) floatChanger.charArray[i] = receive[i + 5];
+			for (int i = 0; i < 4; i++)
+			{
+				currentMessage[i + 6] = receive[i + 5];
+				floatChanger.charArray[i] = receive[i + 5];
+			};
 			userFDArray[userNumber]->destinationY = floatChanger.floatValue;
 
-			for (int i = 0; i < 4; i++) floatChanger.charArray[i] = receive[i + 9];
+			for (int i = 0; i < 4; i++)
+			{
+				currentMessage[i + 10] = receive[i + 9];
+				floatChanger.charArray[i] = receive[i + 9];
+			};
 			userFDArray[userNumber]->destinationZ = floatChanger.floatValue;
 
 			//0번 리슨포트였죠... 리슨포트에다가 그대로 전달을 해주시면
@@ -280,10 +309,11 @@ void CheckMessage(int userNumber, char receive[], int length)
 			for (int i = 1; i < USER_MAXIMUM; i++)
 			{
 				//유저가 있음!
-				if (pollFDArray[i].fd != -1)
+				if (pollFDArray[i].fd != -1 && userFDArray[i] != nullptr)
 				{
 					//유저한테 이동 내용을 전달해주기!
-					write(pollFDArray[i].fd, receive, length - 1);
+					userFDArray[i]->MessageQueueing(currentMessage);
+					//write(pollFDArray[i].fd, receive, length - 1);
 				};
 			};
 			break;
