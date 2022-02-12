@@ -529,6 +529,7 @@ void* MessageSendThread(void* args)
 			if (pollFDArray[i].fd >= 0 && userFDArray[i] != nullptr)
 			{
 				memset(buffSend, 0, BUFF_SIZE);
+				cout << "유저에게 전달하기 전 마지막 단말마" << endl;
 				userFDArray[i]->MessageSend();
 			};
 		};
