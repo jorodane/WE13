@@ -149,13 +149,12 @@ public:
 	~UserData()
 	{
 		//메시지 큐 안에 들어있었던 문자열들을 꺼내면서 제거해줄 필요가 있겠죠!
-		/*
 		while (!messageQueue->empty())
 		{
 			delete messageQueue->front();
 			messageQueue->pop();
-		};*/
-		//delete messageQueue;
+		};
+		delete messageQueue;
 		cout << "유저 연결이 종료되었습니다." << endl;
 	}
 };
@@ -527,7 +526,7 @@ void* MessageSendThread(void* args)
 		for (int i = 1; i < USER_MAXIMUM; i++)
 		{
 			//유저가 있다면 전달 시도!
-			if (userFDArray[i] != nullptr)
+			if (pollFDArray >= 0 && userFDArray[i] != nullptr)
 			{
 				memset(buffSend, 0, BUFF_SIZE);
 				userFDArray[i]->MessageSend();
