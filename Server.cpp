@@ -129,8 +129,8 @@ public:
 
 		//메시지 큐에서 뭔가 들어온 것을 확인했는데! 이 녀석 아무것도 없는데?
 		if (currentMessage == nullptr) return;
-
-		cout << &currentMessage << endl;
+		//pollFD가 뭔가 잘못 들어와 있을 때!
+		if (pollFDArray[FDNumber].fd <= 1) return;
 
 		//현재 메시지를 전달해줍니다!
 		//write라고 하는 함수는 실패했을 때! -1을 돌려줍니다!
