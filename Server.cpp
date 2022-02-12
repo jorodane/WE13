@@ -117,17 +117,18 @@ public:
 
 	void MessageSend()
 	{
-		cout << "유저에게 전달하기 전 마지막 단말마" << endl;
 		//실제 메세지를 전달해주는 방법~!
 		//줄 것도 없는데.. 뭐 더 할 필요는 없겠죠..?
 		if (messageQueue == nullptr || messageQueue->empty()) return;
-
 
 		//맨 앞에 있는 녀석을 확인해보기!
 		//제일 오래 기다린 녀석!
 		//줄에서 일단은 가져오기만! 했어요!
 		//줄에서 빼내주지 않았다..?
 		char* currentMessage = messageQueue->front();
+
+		//메시지 큐에서 뭔가 들어온 것을 확인했는데! 이 녀석 아무것도 없는데?
+		if (currentMessage == nullptr) return;
 
 		//현재 메시지를 전달해줍니다!
 		//write라고 하는 함수는 실패했을 때! -1을 돌려줍니다!
