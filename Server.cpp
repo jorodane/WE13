@@ -315,7 +315,6 @@ void CheckMessage(int userNumber, char receive[], int length)
 					memcpy(currentUserMessage, currentMessage, 14);
 					//유저한테 이동 내용을 전달해주기!
 					userFDArray[i]->MessageQueueing(currentUserMessage);
-					//write(pollFDArray[i].fd, receive, length - 1);
 				};
 			};
 			break;
