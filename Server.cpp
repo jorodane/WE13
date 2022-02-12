@@ -391,7 +391,7 @@ int main()
 									memcpy(currentUserMessage, message, 5);
 
 									//모든 유저들한테! 새로운 유저의 출현을 알려주기!
-									write(pollFDArray[j].fd, message, 5);
+									userFDArray[i]->MessageQueueing(currentUserMessage);
 
 									//원래 유저가 있었던 것도 알려주어야 하니까!
 									char* userNumberMessage = new char[5];
