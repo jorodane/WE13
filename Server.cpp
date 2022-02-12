@@ -96,7 +96,7 @@ public:
 	//한 번에 주기가 너무 힘듭니다!
 	//message Queue라고 해서! Queue형태로 저장을 시켜놓은 다음에!
 	//Queue는 대기열! 아직 못 전해준 녀석! 순서대로 전달!
-	queue<char*> messageQueue;
+	queue<char*>* messageQueue = nullptr;
 
 	//본인이 타고 있는 소켓의 번호를 저장해둡시다!
 	//나중에 얘한테 연락해야 하는 일이 있을 때! 유용하게 사용하겠죠!
@@ -112,20 +112,20 @@ public:
 		//즉시 전달을 하는 것이 아니에요!
 		//다음 틱레이트에 도착했을 때! 아! 보내면 되는구나! 라고 생각해서!
 		//넣어둔 큐에서 빼서 갈 거니까! 일단 준비해보기!
-		messageQueue.push(wantMessage);
+		messageQueue->push(wantMessage);
 	}
 
 	void MessageSend()
 	{
 		//실제 메세지를 전달해주는 방법~!
 		//줄 것도 없는데.. 뭐 더 할 필요는 없겠죠..?
-		if (messageQueue.empty()) return;
+		if (messageQueue == nullptr || messageQueue->empty()) return;
 
 		//맨 앞에 있는 녀석을 확인해보기!
 		//제일 오래 기다린 녀석!
 		//줄에서 일단은 가져오기만! 했어요!
 		//줄에서 빼내주지 않았다..?
-		char* currentMessage = messageQueue.front();
+		char* currentMessage = messageQueue->front();
 
 		//현재 메시지를 전달해줍니다!
 		//write라고 하는 함수는 실패했을 때! -1을 돌려줍니다!
@@ -134,7 +134,7 @@ public:
 			//-1이 아니라고 한다면! 성공했다고 볼 수 있겠죠!
 			//보낸 데이터의 크기를 반환받을 수 있습니다!
 			//데이터를 보내는 데에 성공했을 때에만! 메세지 대기열에서 빼주기!
-			messageQueue.pop();
+			messageQueue->pop();
 			//메시지를 보냈으니까! 더 이상 저희의 메모리에 메시지를 남겨놓을 필요가 없습니다!
 			delete currentMessage;
 		};
@@ -142,11 +142,13 @@ public:
 	
 	UserData()
 	{
+		messageQueue = new queue<char*>();
 		cout << "유저 데이터가 생성되었습니다." << endl;
 	};
 
 	~UserData()
 	{
+		delete messageQueue;
 		cout << "유저 연결이 종료되었습니다." << endl;
 	}
 };
