@@ -448,7 +448,6 @@ int main()
 						//이 상황은 클라이언트가 "연결을 끊겠다" 라는 의미입니다!
 						if (read(pollFDArray[i].fd, buffRecv, BUFF_SIZE) < 1)
 						{
-							cout << "저걸로 꺼짐" << endl;
 							delete userFDArray[i];
 							pollFDArray[i].fd = -1;
 
@@ -467,6 +466,7 @@ int main()
 								{
 									char* currentUserMessage = new char[5];
 									memcpy(currentUserMessage, message, 5);
+									cout << j << "번째 유저에게 전달" << endl;
 									userFDArray[j]->MessageQueueing(currentUserMessage);
 								};
 							};
@@ -483,7 +483,6 @@ int main()
 
 						break;
 					default:
-						cout << "이걸로 꺼짐" << endl;
 						delete userFDArray[i];
 						pollFDArray[i].fd = -1;
 
