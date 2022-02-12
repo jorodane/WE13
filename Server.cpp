@@ -329,7 +329,7 @@ int main()
 		pollFDArray[0].revents = 0;
 
 		//스레드를 실행시켜놓고 가도록 할게요!
-		pthread_t senderThread = nullptr;
+		pthread_t senderThread;
 
 		//스레드를 실제로 실행하는 부분!
 		if (pthread_create(&senderThread, nullptr, MessageSendThread, nullptr))
