@@ -443,9 +443,12 @@ int main()
 							//유저가 나갔다고 알려주기!
 							for (int j = 1; j < USER_MAXIMUM; j++)
 							{
-								char* currentUserMessage = new char[5];
-								memcpy(currentUserMessage, message, 5);
-								if (userFDArray[j] != nullptr) userFDArray[j]->MessageQueueing(currentUserMessage);
+								if (userFDArray[j] != nullptr)
+								{
+									char* currentUserMessage = new char[5];
+									memcpy(currentUserMessage, message, 5);
+									userFDArray[j]->MessageQueueing(currentUserMessage);
+								};
 							};
 							break;
 						};
@@ -474,9 +477,12 @@ int main()
 						//유저가 나갔다고 알려주기!
 						for (int j = 1; j < USER_MAXIMUM; j++)
 						{
-							char* currentUserMessage = new char[5];
-							memcpy(currentUserMessage, message, 5);
-							if (userFDArray[j] != nullptr) userFDArray[j]->MessageQueueing(currentUserMessage);
+							if (userFDArray[j] != nullptr)
+							{
+								char* currentUserMessage = new char[5];
+								memcpy(currentUserMessage, message, 5);
+								userFDArray[j]->MessageQueueing(currentUserMessage);
+							};
 						};
 						break;
 					};
