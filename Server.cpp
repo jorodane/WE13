@@ -329,10 +329,10 @@ int main()
 		pollFDArray[0].revents = 0;
 
 		//스레드를 실행시켜놓고 가도록 할게요!
-		pthread_t* senderThread = nullptr;
+		pthread_t senderThread;
 
 		//스레드를 실제로 실행하는 부분!
-		if (pthread_create(senderThread, nullptr, MessageSendThread, nullptr))
+		if (pthread_create(&senderThread, nullptr, MessageSendThread, nullptr))
 		{
 			//스레드를 정상적으로 만들었을 때에는 0을 반환합니다!
 			//그래서 여기는요.. 사실 실패한 곳이에요..
@@ -479,7 +479,7 @@ int main()
 		};
 
 		//다 끝나고 나서는 스레드를 종료해주셔야겠죠!
-		pthread_cancel(*senderThread);
+		pthread_cancel(senderThread);
 	}
 	catch (exception& e)
 	{
