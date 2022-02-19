@@ -51,7 +51,7 @@ void MySQLClose()
 
 void SaveUser(const char* id, const char* color)
 {
-	char* query = "INSERT INTO UserData (ID, COLOR) VALUES (";
+	const char* query = "INSERT INTO UserData (ID, COLOR) VALUES (";
 	//쿼리에 ID추가해주기!
 	strcat(query, id);
 	strcat(query, ", ");
