@@ -51,12 +51,12 @@ void MySQLClose()
 
 void SaveUser(string id, string color)
 {
-	string query = "INSERT INTO UserData (ID, COLOR) VALUES (";
+	string query = "INSERT INTO UserData (ID, COLOR) VALUES (\"";
 	//쿼리에 ID추가해주기!
 	query += id;
-	query += ", ";
+	query += "\", \"";
 	query += color;
-	query += ");";
+	query += "\");";
 
 	if (mysql_query(connectedDatabase, query.c_str()) != 0)
 	{
