@@ -50,6 +50,7 @@
 #include <queue>
 
 #include "ServerEnum.h"
+#include "MySQL.h"
 
 using namespace std;
 
@@ -361,9 +362,11 @@ int main()
 		memset(buffRecv, 0, sizeof(buffRecv));
 		memset(buffSend, 0, sizeof(buffSend));
 
+		//MySQL을 시작합시다!   실패하면 그대로 프로그램을 종료합시다!
+		if(!MySQLInitialize()) return -4;
+
 		//서버를 시작합니다!         실패하면 그대로 프로그램을 종료합시다!
 		if (StartServer(&listenFD)) return -4;
-
 		cout << "서버가 정상적으로 실행되었습니다." << endl;
 
 		//pollFDArray가 제가 연락을 기다리고 있는 애들이에요!
@@ -551,8 +554,8 @@ int main()
 	{
 		cout << e.what() << endl;
 	};
-
-	
+	//MySQL닫고 갑시다!
+	MySQLClose();
 	cout << "서버가 종료되었습니다." << endl;
 	return -4;
 }
