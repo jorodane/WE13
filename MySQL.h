@@ -58,7 +58,7 @@ void SaveUser(string id, string color)
 	query += color;
 	query += ");";
 
-	if (mysql_query(connectedDatabase, query) != 0)
+	if (mysql_query(connectedDatabase, query.c_str()) != 0)
 	{
 		cout << "Cannot Save Data" << endl;
 		return;
