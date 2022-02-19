@@ -366,7 +366,7 @@ int main()
 		//MySQL을 시작합시다!   실패하면 그대로 프로그램을 종료합시다!
 		if(!MySQLInitialize()) return -4;
 
-		SaveUser("Test", "D");
+		SaveUser("Test", "W");
 
 		//서버를 시작합니다!         실패하면 그대로 프로그램을 종료합시다!
 		if (StartServer(&listenFD)) return -4;

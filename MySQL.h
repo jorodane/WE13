@@ -85,6 +85,7 @@ void SaveUser(string id, string color)
 	{
 		//이미 유저가 있었으니까! 값만 바꿔주면 되죠!
 		//UPDATE UserData SET COLOR = "color" WHERE ID = "id";
+		//UPDATE UserData SET COLOR = "color", INI = "a" WHERE ID = "id";
 		query = "UPDATE ";
 		query += targetTable;
 		query += " SET COLOR=\"";
