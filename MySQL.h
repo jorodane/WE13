@@ -49,7 +49,20 @@ void MySQLClose()
 	mysql_close(connectedDatabase);
 }
 
-void SaveUser()
+void SaveUser(char* id, char* color)
 {
-	
+	char* query = "INSERT INTO UserData (ID, COLOR) VALUES (";
+	//쿼리에 ID추가해주기!
+	strcat(query, id);
+	strcat(query, ", ");
+	strcat(query, color);
+	strcat(query, ");");
+
+	if (mysql_query(connectedDatabase, query) != 0)
+	{
+		cout << "Cannot Save Data" << endl;
+		return;
+	};
+
+	cout << "Save Succeed" << endl;
 }
