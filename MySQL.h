@@ -39,6 +39,7 @@ bool MySQLInitialize()
 		cout << "Database is Invalid" << endl;
 		return false;
 	};
+	cout << "Database has Open" << endl;
 
 	return true;
 }
