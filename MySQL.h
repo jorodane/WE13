@@ -24,7 +24,7 @@ bool MySQLInitialize()
 	cout << "MySQL Successfully Initialized" << endl;
 
 	//                      MySQL 저장할 위치!  MySQL의 주소!   ID      비번              포트번호
-	if (!mysql_real_connect(connectedDatabase, "localhost", "root", "password", nullptr, 3306, nullptr, 0))
+	if (!mysql_real_connect(connectedDatabase, "localhost", "root", "pasword", nullptr, 3306, nullptr, 0))
 	{
 		cout << "Failed to Connect MySQL" << endl;
 		return false;
