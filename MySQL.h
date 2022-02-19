@@ -14,6 +14,9 @@ MYSQL_RES* queryResult;
 //이거를 줄 형식으로 가져와야 합니다!
 MYSQL_ROW queryRow;
 
+//나중에 테이블명 바꾸면 여기서도 바꿔주세요!
+string targetTable = "UserData";
+
 bool MySQLInitialize()
 {
 	if (!(connectedDatabase = mysql_init((MYSQL*)nullptr)))
@@ -49,20 +52,64 @@ void MySQLClose()
 	mysql_close(connectedDatabase);
 }
 
+bool LoadUser(string id)
+{
+	//유저데이터에서 아이디가 일치하는 녀석의 줄을 가져옵니다!
+	//SELECT * FROM UserData WHERE ID = "id";
+	string query = "SELECT * FROM ";
+	query += targetTable;
+	query += " WHERE ID = \"";
+	query += id;
+	query += "\";";
+
+	if (mysql_query(connectedDatabase, query.c_str()) != 0)
+	{
+		return false;
+	};
+
+	//Select문은 제가 물어보고 "가져오는" 거니까! 실제로 어딘가에 저장해야겠죠!
+	//mySQL이 제가 질문한 것의 답을 가지고있어요! 그걸 내놓으라고 말해야 해요!
+	queryResult = mysql_store_result(connectedDatabase);
+
+	//줄 형태로 가져와야 하기 때문에! 이걸 한 번 더 늘입니다!
+	queryRow = mysql_fetch_row(queryResult);
+
+	return true;
+}
+
 void SaveUser(string id, string color)
 {
-	string query = "INSERT INTO UserData (ID, COLOR) VALUES (\"";
-	//쿼리에 ID추가해주기!
-	query += id;
-	query += "\", \"";
-	query += color;
-	query += "\");";
+	string query;
+	//일단 유저를 불러옵니다!
+	if (LoadUser(id))
+	{
+		//이미 유저가 있었으니까! 값만 바꿔주면 되죠!
+		//UPDATE UserData SET COLOR = "color" WHERE ID = "id";
+		query = "UPDATE ";
+		query += targetTable;
+		query += " SET COLOR=\"";
+		query += color;
+		query += "\" WHERE ID = \"";
+		query += id;
+		query += "\";";
+	}
+	else
+	{
+		//INSERT INTO UserData (ID, COLOR) VALUES ("id", "color");
+		query = "INSERT INTO ";
+		query += targetTable;
+		query += " (ID, COLOR) VALUES(\"";
+		//쿼리에 ID추가해주기!
+		query += id;
+		query += "\", \"";
+		query += color;
+		query += "\");";
+	};
 
 	if (mysql_query(connectedDatabase, query.c_str()) != 0)
 	{
 		cout << "Cannot Save Data" << endl;
 		return;
 	};
-
 	cout << "Save Succeed" << endl;
 }
