@@ -49,14 +49,14 @@ void MySQLClose()
 	mysql_close(connectedDatabase);
 }
 
-void SaveUser(const char* id, const char* color)
+void SaveUser(string id, string color)
 {
-	const char* query = "INSERT INTO UserData (ID, COLOR) VALUES (";
+	string query = "INSERT INTO UserData (ID, COLOR) VALUES (";
 	//쿼리에 ID추가해주기!
-	strcat(query, id);
-	strcat(query, ", ");
-	strcat(query, color);
-	strcat(query, ");");
+	query += id;
+	query += ", ";
+	query += color;
+	query += ");";
 
 	if (mysql_query(connectedDatabase, query) != 0)
 	{

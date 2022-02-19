@@ -27,6 +27,7 @@
 //클라이언트 같은 경우는 144프레임으로 하시는 분? 굉장히 많이 있습니다!
 #define TICK_RATE 16
 
+#include <string>
 #include <iostream>
 //클라이언트가 직접 주소와 포트를 이용해서 들어오라고 소켓을 사용할 거에요!
 #include <sys/socket.h>
