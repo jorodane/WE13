@@ -31,10 +31,24 @@ bool MySQLInitialize()
 	};
 
 	cout << "Successfully Connected to MySQL" << endl;
+
+	//mysql에 질의문을 던집니다!         질의문을 문자열 안쪽에 넣으시면 됩니다!
+	//                                  데이터베이스 설정!
+	if (mysql_query(connectedDatabase, "USE ServerData") != 0)
+	{
+		cout << "Database is Invalid" << endl;
+		return false;
+	};
+
 	return true;
 }
 
 void MySQLClose()
 {
 	mysql_close(connectedDatabase);
+}
+
+void SaveUser()
+{
+	
 }
